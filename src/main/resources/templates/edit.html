@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit user</title>
+</head>
+<body>
+
+<div>
+    <button onclick="location.href='/logout'">Logout</button>
+</div>
+<h2 th:utext="${admin.email + ' with roles:' + admin.rolesNames}"></h2>
+<div>
+    <button onclick="location.href='/admin'">Admin</button>
+</div>
+<div>
+    <button onclick="location.href='/user'">User</button>
+</div>
+
+<h1>Admin panel</h1>
+<button onclick="location.href='/admin'">Users table</button>
+<button onclick="location.href='/add'">New user</button>
+
+<h2>Edit</h2>
+<form th:action="@{/admin/save}" th:object="${user}" method="post" id="save">
+    <table>
+        <tr>
+            <td><label for="id">ID</label></td>
+            <td><input readonly type="number" th:field="*{id}" id="id"></td>
+        </tr>
+
+        <tr>
+            <td><label for="firstname">First Name</label></td>
+            <td><input type="text" th:field="*{username}" id="firstname"></td>
+        </tr>
+        <tr>
+            <td><label for="lastname">Last Name</label></td>
+            <td><input type="text" th:field="*{lastname}" id="lastname"></td>
+        </tr>
+        <tr>
+            <td><label for="age">Age</label></td>
+            <td><input type="number" th:field="*{age}" id="age"></td>
+        </tr>
+        <tr>
+            <td><label for="email">Email</label></td>
+            <td><input type="text" th:field="*{email}" id="email"></td>
+        </tr>
+        <tr>
+            <td><label for="password"> Password </label></td>
+            <td><input type="password" th:field="*{password}" id="password"></td>
+        </tr>
+        <tr>
+            <td><label for="roles"> Role </label></td>
+            <td>
+                <select  th:size="${roleList.size()}" name="rolesId" id="roles" multiple>
+                    <option  th:each="role : ${roleList}"
+                             th:value="${role.id}"
+                             th:utext="${role.name}"></option>
+                </select>
+            </td>
+        <tr>
+            <td><input type="submit" value="Save" form="save"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

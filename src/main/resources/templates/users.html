@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>All users</title>
+</head>
+<body>
+
+<div>
+    <button onclick="location.href='/logout'">Logout</button>
+</div>
+<h2 th:utext="${admin.email + ' with roles:' + admin.rolesNames}"></h2>
+<div>
+    <button onclick="location.href='/admin'">Admin</button>
+</div>
+<div>
+    <button onclick="location.href='/user'">User</button>
+</div>
+
+<h1>Admin panel</h1>
+<button onclick="location.href='/admin'">Users table</button>
+<button onclick="location.href='/admin/add'">New user</button>
+<h2>All users</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Role</th>
+        <div  th:if="${admin.admin}">
+            <th>Edit</th>
+            <th>Delete</th>
+        </div>
+    </tr>
+    <tr th:each="user : ${userList}">
+        <td th:utext="${user.id}"></td>
+        <td th:utext="${user.username}"></td>
+        <td th:utext="${user.lastname}"></td>
+        <td th:utext="${user.age}"></td>
+        <td th:utext="${user.email}"></td>
+        <td>
+            <div th:each="role : ${user.roles}" th:text="${role.name}"></div>
+        </td>
+        <td>
+            <button th:attr="onclick=|location.href='@{/admin/edit{id}(id=${user.id})}'|">Edit</button>
+        </td>
+        <td>
+            <button th:attr="onclick=|location.href='@{/admin/delete{id}(id=${user.id})}'|">Delete</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
