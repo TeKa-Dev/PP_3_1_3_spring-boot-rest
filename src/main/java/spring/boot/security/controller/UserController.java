@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-
 @Controller
 public class UserController {
 
@@ -20,27 +19,24 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping("/user")
     public String userInfo(Model model, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        model.addAttribute(user);
-        return "info";
+        model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
+        return "users";
     }
-
 
     @GetMapping("/admin")
     public String showAllUsers(Model model, Principal principal) {
-        model.addAttribute("admin", userService.findByUsername(principal.getName()));
         model.addAttribute("userList", userService.findAllUsers());
-        return "users";
+        model.addAttribute("adminPanel", true);
+        return userInfo(model, principal);
     }
 
     @GetMapping("/admin/add")
     public String addNewUser(Model model, User user, Principal principal) {
-        model.addAttribute("admin", userService.findByUsername(principal.getName()));
-        model.addAttribute(user);
+        model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
         model.addAttribute("roleList", userService.findAllRoles());
+        model.addAttribute(user);
         return "edit";
     }
 
@@ -52,7 +48,7 @@ public class UserController {
     @PostMapping("/admin/save")
     public String saveUser(@RequestParam List<Long> roleIds, Model model, User user, Principal principal) {
         if (user.getId() == null && userService.findAllUsers().contains(user)) {
-            model.addAttribute("isExists", true);
+            model.addAttribute("isUsernameExists", true);
             return showAllUsers(model, principal);
         }
         user.setRoles(userService.findRoles(roleIds));

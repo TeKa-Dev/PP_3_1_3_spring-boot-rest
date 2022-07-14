@@ -9,7 +9,7 @@
 <div>
     <button onclick="location.href='/logout'">Logout</button>
 </div>
-<h2 th:utext="${admin.email + ' with roles:' + admin.rolesNames}"></h2>
+<h2 th:utext="${currentUser.email + ' with roles:' + currentUser.rolesNames}"></h2>
 <div>
     <button onclick="location.href='/admin'">Admin</button>
 </div>
@@ -21,7 +21,7 @@
 <button onclick="location.href='/admin'">Users table</button>
 <button onclick="location.href='/add'">New user</button>
 
-<h2>Edit</h2>
+<h2 th:utext="${user.id == null} ? 'Add new user' : 'Edit user'"></h2>
 <form th:action="@{/admin/save}" th:object="${user}" method="post" id="save">
     <table>
         <tr>
@@ -52,14 +52,20 @@
         <tr>
             <td><label for="role"> Role </label></td>
             <td>
-                <select  th:size="${roleList.size()}" name="roleIds" id="role" required multiple>
-                    <option  th:each="role : ${roleList}"
-                             th:value="${role.id}"
-                             th:utext="${role.name}"></option>
+                <select th:size="${roleList.size()}" name="roleIds" id="role" required multiple>
+                    <option th:each="role : ${roleList}"
+                            th:value="${role.id}"
+                            th:utext="${role.name}"></option>
                 </select>
             </td>
         <tr>
-            <td><input type="submit" value="Save" form="save"></td>
+            <td th:if="${user.id == null}">
+                <input type="submit" value="Add new user" form="save">
+            </td>
+            <td th:unless="${user.id == null}">
+                <button type="reset" onclick="location.href='/admin'">Close</button>
+                <input type="submit" value="Edit" form="save">
+            </td>
         </tr>
     </table>
 </form>
