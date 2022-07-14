@@ -7,7 +7,7 @@
 <body>
 
 <button onclick="location.href='/logout'">Logout</button>
-<h2 th:utext="${currentUser.email + ' with roles:' + currentUser.rolesNames}"></h2>
+<h3 th:utext="${currentUser.email + ' with roles:' + currentUser.rolesNames}">user@mail.com with roles: USER</h3>
 <button th:if="${currentUser.isAdmin()}" onclick="location.href='/admin'">Admin</button><br>
 <button onclick="location.href='/user'">User</button>
 
@@ -15,12 +15,12 @@
     <h1>Admin panel</h1>
     <button onclick="location.href='/admin'">Users table</button>
     <button onclick="location.href='/admin/add'">New user</button>
-    <h2>All users</h2>
+    <h3>All users</h3>
 </div>
 
 <div th:unless="${adminPanel}">
     <h1>User information-page</h1>
-    <h2>About user</h2>
+    <h3>About user</h3>
 </div>
 
 <table>

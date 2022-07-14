@@ -9,7 +9,7 @@
 <div>
     <button onclick="location.href='/logout'">Logout</button>
 </div>
-<h2 th:utext="${currentUser.email + ' with roles:' + currentUser.rolesNames}"></h2>
+<h3 th:utext="${currentUser.email + ' with roles:' + currentUser.rolesNames}">user@mail.com with roles: ADMIN</h3>
 <div>
     <button onclick="location.href='/admin'">Admin</button>
 </div>
@@ -21,7 +21,7 @@
 <button onclick="location.href='/admin'">Users table</button>
 <button onclick="location.href='/add'">New user</button>
 
-<h2 th:utext="${user.id == null} ? 'Add new user' : 'Edit user'"></h2>
+<h3 th:utext="${isNewUser} ? 'Add new user' : 'Edit user'">Add new user | Edit user</h3>
 <form th:action="@{/admin/save}" th:object="${user}" method="post" id="save">
     <table>
         <tr>
@@ -59,10 +59,10 @@
                 </select>
             </td>
         <tr>
-            <td th:if="${user.id == null}">
+            <td th:if="${isNewUser}">
                 <input type="submit" value="Add new user" form="save">
             </td>
-            <td th:unless="${user.id == null}">
+            <td th:unless="${isNewUser}">
                 <button type="reset" onclick="location.href='/admin'">Close</button>
                 <input type="submit" value="Edit" form="save">
             </td>

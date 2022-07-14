@@ -36,6 +36,7 @@ public class UserController {
     public String addNewUser(Model model, User user, Principal principal) {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
         model.addAttribute("roleList", userService.findAllRoles());
+        model.addAttribute("isNewUser", user.getId() == null);
         model.addAttribute(user);
         return "edit";
     }
@@ -49,11 +50,11 @@ public class UserController {
     public String saveUser(@RequestParam List<Long> roleIds, Model model, User user, Principal principal) {
         if (user.getId() == null && userService.findAllUsers().contains(user)) {
             model.addAttribute("isUsernameExists", true);
-            return showAllUsers(model, principal);
+            return "redirect:/admin";
         }
         user.setRoles(userService.findRoles(roleIds));
         userService.saveUser(user);
-        return showAllUsers(model, principal);
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/delete{id}")

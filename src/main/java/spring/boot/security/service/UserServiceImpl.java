@@ -86,5 +86,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<Role> findRoles(List<Long> rolesId) {
         return roleRepository.findAllById(rolesId);
     }
+
+    @Transactional
+    @Override
+    public void saveRole(Role role) {
+        roleRepository.save(role);
+    }
 }
 

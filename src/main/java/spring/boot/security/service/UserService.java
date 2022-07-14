@@ -13,4 +13,5 @@ public interface UserService {
     void saveUser(User user);
     List<Role> findAllRoles();
     List<Role> findRoles(List<Long> rolesId);
+    void saveRole(Role role);
 }
