@@ -1,6 +1,5 @@
 package spring.boot.security.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,14 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void  configure(HttpSecurity http) throws Exception{
         http
-                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/").hasAnyRole("USER", "ADMIN")
                 .and()
-                .formLogin().usernameParameter("email")
-                .successHandler(successUserHandler)
+                .formLogin().successHandler(successUserHandler)
                 .and()
                 .logout().logoutSuccessUrl("/");
     }
