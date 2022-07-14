@@ -1,7 +1,5 @@
 package spring.boot.security.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import spring.boot.security.entity.Role;
 import spring.boot.security.entity.User;
 import spring.boot.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,7 @@ public class UserController {
 
 
     @GetMapping("/admin")
-    public String findAll(Model model, Principal principal) {
+    public String showAllUsers(Model model, Principal principal) {
         model.addAttribute("admin", userService.findByUsername(principal.getName()));
         model.addAttribute("userList", userService.findAllUsers());
         return "users";
@@ -47,18 +45,19 @@ public class UserController {
     }
 
     @GetMapping("/admin/edit{id}")
-    public String updateUserForm(@PathVariable Long id, Model model, Principal principal) {
-        model.addAttribute("admin", userService.findByUsername(principal.getName()));
-        model.addAttribute("user", userService.findUserById(id));
-        model.addAttribute("roleList", userService.findAllRoles());
-        return "edit";
+    public String editUser(@PathVariable Long id, Model model, Principal principal) {
+        return addNewUser(model, userService.findUserById(id), principal);
     }
 
     @PostMapping("/admin/save")
-    public String createUser(@RequestParam(required = false) List<Long> rolesId, User user) {
-        user.setRoles(userService.findRoles(rolesId));
+    public String saveUser(@RequestParam List<Long> roleIds, Model model, User user, Principal principal) {
+        if (userService.findAllUsers().contains(user)) {
+            model.addAttribute("isExists", true);
+            return showAllUsers(model, principal);
+        }
+        user.setRoles(userService.findRoles(roleIds));
         userService.saveUser(user);
-        return "redirect:/admin";
+        return showAllUsers(model, principal);
     }
 
     @GetMapping("/admin/delete{id}")

@@ -41,9 +41,6 @@ public class User implements UserDetails {
 
 
 
-//    public void addRole(Role role) {
-//        roles.add(role);
-//    }
     public String getRolesNames() {
         StringBuilder names = new StringBuilder();
         for (Role role : roles) {
@@ -127,22 +124,21 @@ public class User implements UserDetails {
     }
 
 
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(getId(), user.getId()) &&
-               Objects.equals(getAge(), user.getAge()) &&
-               Objects.equals(getUsername(), user.getUsername()) &&
-               Objects.equals(getLastname(), user.getLastname()) &&
-               Objects.equals(getEmail(), user.getEmail()) &&
-               Objects.equals(getPassword(), user.getPassword());
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return username.equals(user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getLastname(), getAge(), getEmail(), getPassword());
+        return Objects.hash(getUsername());
     }
 
     @Override

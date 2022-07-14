@@ -60,10 +60,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        Collection<Role> roles= user.getRoles();
-        if (roles.isEmpty()) {
-            roles.add(roleRepository.findByName("USER"));
-        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -95,11 +91,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<Role> findRoles(List<Long> rolesId) {
         return roleRepository.findAllById(rolesId);
-    }
-
-    @Override
-    public Role findRole(String roleName) {
-        return roleRepository.findByName(roleName);
     }
 }
 

@@ -15,5 +15,4 @@ public interface UserService {
     void saveRole(Role role);
     List<Role> findAllRoles();
     List<Role> findRoles(List<Long> rolesId);
-    Role findRole(String roleName);
 }

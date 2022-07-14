@@ -11,13 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
-
 
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
@@ -32,17 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user/").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/user/").hasAnyAuthority("USER", "ADMIN")
-//                .antMatchers("/user/").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .and()
                 .formLogin().usernameParameter("email")
                 .successHandler(successUserHandler)
                 .and()
                 .logout().logoutSuccessUrl("/");
-
     }
 
     @Bean

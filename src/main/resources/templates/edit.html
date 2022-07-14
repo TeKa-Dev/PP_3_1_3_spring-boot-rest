@@ -31,28 +31,28 @@
 
         <tr>
             <td><label for="firstname">First Name</label></td>
-            <td><input type="text" th:field="*{username}" id="firstname"></td>
+            <td><input type="text" th:field="*{username}" id="firstname" required></td>
         </tr>
         <tr>
             <td><label for="lastname">Last Name</label></td>
-            <td><input type="text" th:field="*{lastname}" id="lastname"></td>
+            <td><input type="text" th:field="*{lastname}" id="lastname" required></td>
         </tr>
         <tr>
             <td><label for="age">Age</label></td>
-            <td><input type="number" th:field="*{age}" id="age"></td>
+            <td><input type="number" th:field="*{age}" id="age" required></td>
         </tr>
         <tr>
             <td><label for="email">Email</label></td>
-            <td><input type="text" th:field="*{email}" id="email"></td>
+            <td><input type="text" th:field="*{email}" id="email" required></td>
         </tr>
         <tr>
             <td><label for="password"> Password </label></td>
-            <td><input type="password" th:field="*{password}" id="password"></td>
+            <td><input type="password" th:field="*{password}" id="password" required></td>
         </tr>
         <tr>
-            <td><label for="roles"> Role </label></td>
+            <td><label for="role"> Role </label></td>
             <td>
-                <select  th:size="${roleList.size()}" name="rolesId" id="roles" multiple>
+                <select  th:size="${roleList.size()}" name="roleIds" id="role" required multiple>
                     <option  th:each="role : ${roleList}"
                              th:value="${role.id}"
                              th:utext="${role.name}"></option>
