@@ -28,7 +28,7 @@ public class TestUser {
             User admin = new User();
             admin.setUsername("a");
             admin.setLastname("Adminov");
-            admin.setAge(1);
+            admin.setAge(11);
             admin.setEmail("admin@mail.com");
             admin.setPassword("a");
             Collection<Role> adminRoles = admin.getRoles();
@@ -38,7 +38,7 @@ public class TestUser {
             User user = new User();
             user.setPassword("u");
             user.setLastname("Userov");
-            user.setAge(1);
+            user.setAge(22);
             user.setEmail("user@mail.com");
             user.setUsername("u");
             Collection<Role> userRoles = user.getRoles();
