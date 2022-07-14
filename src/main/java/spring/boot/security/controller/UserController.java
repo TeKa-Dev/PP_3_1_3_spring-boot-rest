@@ -51,7 +51,7 @@ public class UserController {
 
     @PostMapping("/admin/save")
     public String saveUser(@RequestParam List<Long> roleIds, Model model, User user, Principal principal) {
-        if (userService.findAllUsers().contains(user)) {
+        if (user.getId() == null && userService.findAllUsers().contains(user)) {
             model.addAttribute("isExists", true);
             return showAllUsers(model, principal);
         }
