@@ -19,7 +19,7 @@
 
 <h1>Admin panel</h1>
 <button onclick="location.href='/admin'">Users table</button>
-<button onclick="location.href='/add'">New user</button>
+<button onclick="location.href='/admin/add'">New user</button>
 
 <h3 th:utext="${isNewUser} ? 'Add new user' : 'Edit user'">Add new user | Edit user</h3>
 <form th:action="@{/admin/save}" th:object="${user}" method="post" id="save">

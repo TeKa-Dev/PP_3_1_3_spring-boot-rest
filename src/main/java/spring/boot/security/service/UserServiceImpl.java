@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -71,10 +71,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User %s not found ", username));
         }
-        return new org.springframework.security.core.userdetails.User(
-                username,
-                user.getPassword(),
-                user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), user.getAuthorities());
     }
 
     @Override

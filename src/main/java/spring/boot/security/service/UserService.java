@@ -1,11 +1,12 @@
 package spring.boot.security.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import spring.boot.security.entity.Role;
 import spring.boot.security.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     List<User> findAllUsers();
     User findUserById(Long id);
     User findByUsername(String username);
