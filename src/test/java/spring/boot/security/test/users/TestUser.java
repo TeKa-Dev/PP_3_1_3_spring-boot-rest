@@ -7,45 +7,45 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Collection;
 
-//@Component
+@Component
 public class TestUser {
-//
-//    private final UserService userService;
-//
-//        public TestUser(UserService userService) {
-//            this.userService = userService;
-//        }
-//
-//        @PostConstruct
-//        private void initialize() {
-//            Role roleAdmin = new Role();
-//            Role roleUser = new Role();
-//            roleAdmin.setName("ADMIN");
-//            roleUser.setName("USER");
-//            userService.saveRole(roleAdmin);
-//            userService.saveRole(roleUser);
-//
-//            User admin = new User();
-//            admin.setUsername("a");
-//            admin.setLastname("Adminov");
-//            admin.setAge(1);
-//            admin.setEmail("admin@mail.com");
-//            admin.setPassword("a");
-//            Collection<Role> adminRoles = admin.getRoles();
-//            adminRoles.add(roleAdmin);
-//            adminRoles.add(roleUser);
-//
-//            User user = new User();
-//            user.setPassword("u");
-//            user.setLastname("Userov");
-//            user.setAge(1);
-//            user.setEmail("user@mail.com");
-//            user.setUsername("u");
-//            Collection<Role> userRoles = user.getRoles();
-//            userRoles.add(roleUser);
-//
-//            userService.saveUser(admin);
-//            userService.saveUser(user);
-//        }
+
+    private final UserService userService;
+
+        public TestUser(UserService userService) {
+            this.userService = userService;
+        }
+
+        @PostConstruct
+        private void initialize() {
+            Role roleAdmin = new Role();
+            Role roleUser = new Role();
+            roleAdmin.setName("ADMIN");
+            roleUser.setName("USER");
+            userService.saveRole(roleAdmin);
+            userService.saveRole(roleUser);
+
+            User admin = new User();
+            admin.setUsername("a");
+            admin.setLastname("Adminov");
+            admin.setAge(11);
+            admin.setEmail("admin@mail.com");
+            admin.setPassword("a");
+            Collection<Role> adminRoles = admin.getRoles();
+            adminRoles.add(roleAdmin);
+            adminRoles.add(roleUser);
+
+            User user = new User();
+            user.setPassword("u");
+            user.setLastname("Userov");
+            user.setAge(22);
+            user.setEmail("user@mail.com");
+            user.setUsername("u");
+            Collection<Role> userRoles = user.getRoles();
+            userRoles.add(roleUser);
+
+            userService.saveUser(admin);
+            userService.saveUser(user);
+        }
     }
 
