@@ -22,7 +22,9 @@ public class UserController {
     @GetMapping("/user")
     public String getUserInformationPage(Model model, Principal principal) {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
-        return "users";
+        model.addAttribute(new User());
+        model.addAttribute("roleList", userService.findAllRoles());
+        return "users_bootstrap";
     }
 
     @GetMapping("/admin")
@@ -32,34 +34,16 @@ public class UserController {
         return getUserInformationPage(model, principal);
     }
 
-    @GetMapping("/admin/add")
-    public String getUserCreatePage(Model model, User user, Principal principal) {
-        model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
-        model.addAttribute("roleList", userService.findAllRoles());
-        model.addAttribute("isNewUser", user.getId() == null);
-        model.addAttribute(user);
-        return "edit";
-    }
-
-    @GetMapping("/admin/edit{id}")
-    public String getUserEditPage(@PathVariable Long id, Model model, Principal principal) {
-        return getUserCreatePage(model, userService.findUserById(id), principal);
-    }
-
     @PostMapping("/admin/save")
-    public String saveUser(@RequestParam List<Long> roleIds, Model model, User user, Principal principal) {
-        if (user.getId() == null && userService.findAllUsers().contains(user)) {
-            model.addAttribute("isUsernameExists", true);
-            return getAdminPanel(model, principal);
-        }
+    public String saveUser(@RequestParam List<Long> roleIds, User user) {
         user.setRoles(userService.findRoles(roleIds));
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/delete{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @PostMapping("/admin/delete")
+    public String deleteUser(User user) {
+        userService.deleteUser(user.getId());
         return "redirect:/admin";
     }
 }

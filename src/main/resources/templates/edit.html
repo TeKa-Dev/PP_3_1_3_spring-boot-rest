@@ -53,9 +53,7 @@
             <td><label for="role"> Role </label></td>
             <td>
                 <select th:size="${roleList.size()}" name="roleIds" id="role" required multiple>
-                    <option th:each="role : ${roleList}"
-                            th:value="${role.id}"
-                            th:utext="${role.name}"></option>
+                    <option th:each="role : ${roleList}" th:value="${role.id}" th:utext="${role.name}"></option>
                 </select>
             </td>
         <tr>
