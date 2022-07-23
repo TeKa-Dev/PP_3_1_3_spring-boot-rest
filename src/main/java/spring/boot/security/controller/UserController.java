@@ -22,8 +22,8 @@ public class UserController {
     @GetMapping("/user")
     public String getUserInformationPage(Model model, Principal principal) {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
-        model.addAttribute(new User());
         model.addAttribute("roleList", userService.findAllRoles());
+        model.addAttribute(new User());
         return "users_bootstrap";
     }
 

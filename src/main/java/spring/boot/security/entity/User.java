@@ -41,7 +41,7 @@ public class User implements UserDetails {
 
 
 
-    public String getRolesNames() {
+    public String getRoleNames() {
         StringBuilder names = new StringBuilder();
         for (Role role : roles) {
             names.append(" ").append(role.getName());
@@ -50,7 +50,7 @@ public class User implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return getRolesNames().contains("ADMIN");
+        return getRoleNames().contains("ADMIN");
     }
 
     public Long getId() {
