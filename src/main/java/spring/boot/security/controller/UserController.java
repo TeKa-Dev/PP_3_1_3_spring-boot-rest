@@ -19,6 +19,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ResponseBody
+    @GetMapping("/current-user")
+    public User getCurrentUser(Principal principal) {
+        User currentUser = userService.findByUsername(principal.getName());
+        currentUser.setPassword(null);
+        return currentUser;
+    }
+
     @GetMapping("/user")
     public String getUserInformationPage(Model model, Principal principal) {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));

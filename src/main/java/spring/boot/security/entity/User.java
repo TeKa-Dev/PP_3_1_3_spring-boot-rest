@@ -1,5 +1,7 @@
 package spring.boot.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name= "users")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,20 +41,6 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name= "role_id"))
     private Collection<Role> roles = new ArrayList<>();
-
-
-
-    public String getRoleNames() {
-        StringBuilder names = new StringBuilder();
-        for (Role role : roles) {
-            names.append(" ").append(role.getName());
-        }
-        return names.toString();
-    }
-
-    public boolean isAdmin() {
-        return getRoleNames().contains("ADMIN");
-    }
 
     public Long getId() {
         return id;
@@ -101,23 +90,29 @@ public class User implements UserDetails {
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
+
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

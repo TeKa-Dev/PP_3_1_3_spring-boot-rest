@@ -2,14 +2,16 @@ package spring.boot.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import spring.boot.security.entity.Role;
 import spring.boot.security.entity.User;
 import spring.boot.security.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/admin/api")
 public class UserRestController {
 
     private final UserService userService;
@@ -20,24 +22,25 @@ public class UserRestController {
     }
 
 
-    @GetMapping("/current-user")
-    public User getCurrentUser(Principal principal) {
-        return userService.findByUsername(principal.getName());
+    @GetMapping("/roles")
+    public List<Role> getAllRoles() {
+        return userService.findAllRoles();
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.findAllUsers();
+        return userService.findAllUsers().stream().peek(user -> user.setPassword(null)).collect(Collectors.toList());
     }
 
     @PostMapping
-    public User saveUser(@RequestBody User user) {
+    public String saveUser(@RequestBody User user) {
         userService.saveUser(user);
-        return user;
+        return "success";
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestBody User user) {
+    public String deleteUser(@RequestBody User user) {
         userService.deleteUser(user);
+        return "success";
     }
 }

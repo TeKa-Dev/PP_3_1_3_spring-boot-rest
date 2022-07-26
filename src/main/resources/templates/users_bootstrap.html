@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>All users</title>
@@ -9,18 +9,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <script src="../static/users_rest.js"></script>
 </head>
 <body>
 
 <header class="row p-3 bg-dark">
-    <h5 class="col-11 text-white ps-3 m-0"><b id="header-email">user@mail.com </b> <span id="header-roles"> with roles: </span></h5>
-    <button class="col-1 btn text-secondary p-0" onclick="location.href='/logout'">Logout</button>
+    <h5 class="col-11 text-white ps-3 m-0"><b id="header-email">user@mail.com </b> with roles: <span id="header-roles"> </span></h5>
+    <button class="col-1 btn text-light p-0" onclick="location.href='/logout'">Logout</button>
 </header>
 
 <main class="d-flex align-items-start">
     <aside class="flex-column col-2">
         <nav class="nav list-group nav-pills pt-3">
-            <button class="nav-link text-start" data-bs-toggle="pill" href="#admin-panel" id="admin-btn">Admin</button>
+            <button class="nav-link text-start" data-bs-toggle="pill" href="#admin-panel" id="admin-btn" hidden>Admin</button>
             <button class="nav-link text-start" data-bs-toggle="pill" href="#user-page" id="user-btn">User</button>
         </nav>
     </aside>
@@ -33,12 +34,12 @@
         <article class="tab-pane fade" id="admin-panel">
             <h1>Admin panel</h1>
             <menu class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" data-bs-toggle="tab" href="#user-table" aria-selected="true">Users table</button>
-                <button class="nav-link" data-bs-toggle="tab" href="#new-user" aria-selected="false">New user</button>
+                <button class="nav-link active" data-bs-toggle="tab" href="#user-table" aria-selected="true" id="user-table-btn">Users table</button>
+                <button class="nav-link" data-bs-toggle="tab" href="#new-user" aria-selected="false" id="new-user-btn">New user</button>
             </menu>
 
             <section class="tab-content">
-                <article class="tab-pane active border bg-white fade show">
+                <article class="tab-pane fade border bg-white show active" id="user-table">
                     <h5 class="border-bottom bg-light p-3">All users</h5>
                     <div class="px-3 pt-2">
                         <table class="table table-striped border-top">
@@ -55,22 +56,6 @@
                                 </tr>
                             </thead>
                             <tbody id="users-tbody">
-<!--                                <tr>-->
-<!--                                    <td>#</td>-->
-<!--                                    <td>#</td>-->
-<!--                                    <td>#</td>-->
-<!--                                    <td>#</td>-->
-<!--                                    <td>#</td>-->
-<!--                                    <td>-->
-<!--                                        <div># *</div>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <button class="btn btn-info text-white action-btn" name="edit">Edit</button>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <button class="btn btn-danger action-btn" name="delete">Delete</button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -81,24 +66,22 @@
 
                 <article class="tab-pane fade border bg-white" id="new-user">
                     <h5 class="border-bottom bg-light p-3">Add new user</h5>
-                    <form class="row justify-content-center" th:action="@{/admin/save}" th:object="${user}" method="post" id="add-form">
+                    <form class="row justify-content-center" id="add-form">
                         <fieldset class="col-4 text-center fw-bold">
-                                <input hidden type="text" id="id" th:field="*{id}" readonly></label>
+                                <input hidden type="number" name="id" readonly></label>
                             <label class="col-12 px-3">First Name
-                                <input class="form-control form-control-sm mb-3" type="text" id="firstname" th:field="*{username}" required></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="username"></label>
                             <label class="col-12 px-3">Last Name
-                                <input class="form-control form-control-sm mb-3" type="text" id="lastname" th:field="*{lastname}" required></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="lastname"></label>
                             <label class="col-12 px-3">Age
-                                <input class="form-control form-control-sm mb-3" type="number" id="age" th:field="*{age}" required></label>
+                                <input class="form-control form-control-sm mb-3" type="number" name="age"></label>
                             <label class="col-12 px-3">Email
-                                <input class="form-control form-control-sm mb-3" type="text" id="email" th:field="*{email}" required></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="email"></label>
                             <label class="col-12 px-3"> Password
-                                <input class="form-control form-control-sm mb-3" type="password" id="password" th:field="*{password}" required></label>
+                                <input class="form-control form-control-sm mb-3" type="password" name="password"></label>
                             <label class="col-12 px-3"> Role
-                                <select class="form-select mb-3" th:size="${roleList.size()}" size="2" name="roleIds" id="role" required multiple>
-                                        <option th:each="role : ${roleList}" th:value="${role.id}" th:utext="${role.name}">ROLE</option>
-                                </select></label>
-                            <button class="btn btn-success" type="submit" form="add-form">Add new user</button>
+                                <select class="form-select mb-3" size="2" name="roles" multiple></select></label>
+                            <button class="btn btn-success" type="submit" form="add-form" id="add-btn">Add new user</button>
                         </fieldset>
                     </form>
                 </article>
@@ -121,20 +104,11 @@
                                 <th scope="col">Last Name</th>
                                 <th scope="col">Age</th>
                                 <th scope="col">Email</th>
+                                <th scope="col" hidden>Password</th>
                                 <th scope="col">Role</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td id="current-user-id">-</td>
-                                <td id="current-user-username">-</td>
-                                <td id="current-user-lastname">-</td>
-                                <td id="current-user-age">-</td>
-                                <td id="current-user-email">-</td>
-                                <td>
-                                    <div id="current-user-roles">-</div>
-                                </td>
-                            </tr>
+                        <tbody id="current-user-tbody">
                         </tbody>
                     </table>
                 </div>
@@ -152,190 +126,35 @@
         <article class="modal-content">
             <header class="modal-header">
                 <h5 class="modal-title" id="modal-title">modal</h5>
-                <button type="reset" class="btn-close" aria-label="Close" onclick="location.href='/admin'"></button>
+                <button type="reset" class="btn-close" aria-label="Close"></button>
             </header>
-            <form class="modal-body" th:action="@{/admin/save}" th:object="${user}" method="post" id="modal-form">
-                <fieldset class="text-center fw-bold" id="fields">
+            <form class="modal-body" id="modal-form">
+                <fieldset class="text-center fw-bold">
                     <label class="col-form-label pb-0 col-7">ID
-                        <input class="form-control form-control-sm mb-2" type="number" id="modal-id" th:field="*{id}" readonly></label>
+                        <input class="form-control form-control-sm mb-2" type="number" name="id"></label>
                     <label class="col-form-label pb-0 col-7">First Name
-                        <input class="form-control form-control-sm mb-2" type="text" id="modal-firstname" th:field="*{username}" required></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="username"></label>
                     <label class="col-form-label pb-0 col-7">Last Name
-                        <input class="form-control form-control-sm mb-2" type="text" id="modal-lastname" th:field="*{lastname}" required></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="lastname"></label>
                     <label class="col-form-label pb-0 col-7">Age
-                        <input class="form-control form-control-sm mb-2" type="number" id="modal-age" th:field="*{age}" required></label>
+                        <input class="form-control form-control-sm mb-2" type="number" name="age"></label>
                     <label class="col-form-label pb-0 col-7">Email
-                        <input class="form-control form-control-sm mb-2" type="text" id="modal-email" th:field="*{email}" required></label>
-                    <label class="col-form-label pb-0 col-7" name="password"> Password
-                        <input class="form-control form-control-sm mb-2" type="password" id="modal-password" th:field="*{password}" required></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="email"></label>
+                    <label class="col-form-label pb-0 col-7" id="password-label"> Password
+                        <input class="form-control form-control-sm mb-2" type="password" name="password"></label>
                     <label class="col-form-label pb-0 col-7" >Role
-                        <select class="form-select mb-2" th:size="${roleList.size()}" size="2" name="roleIds" id="modal-role" required multiple>
-                            <option th:each="role : ${roleList}" th:value="${role.id}" th:utext="${role.name}">ROLE</option>
+                        <select class="form-select mb-2" size="2" name="roles" multiple>
+                            <option>ROLE</option>
                         </select></label>
                 </fieldset>
             </form>
             <footer class="modal-footer">
-                <button class="btn btn-secondary" type="reset" onclick="location.href='/admin'">Close</button>
-                <button type="submit" form="modal-form" id="modal-btn">btn</button>
+                <button class="btn btn-secondary" type="reset">Close</button>
+                <button class="btn" type="submit" id="modal-btn" form="modal-form">Submit</button>
             </footer>
         </article>
     </main>
 </section>
 
 </body>
-<script>
-    const URL = 'http://localhost:8080/api';
-
-    fetch(URL + '/current-user')
-    .then((resp) => resp.json())
-    .then((data) => {
-        const currentUser = new User(data.id, data.username, data.lastname, data.age, data.email, data.password, data.roles, data.admin, data.roleNames);
-        document.getElementById('current-user-id').textContent = data.id;
-        document.getElementById('current-user-username').textContent = data.username;
-        document.getElementById('current-user-lastname').textContent = data.lastname;
-        document.getElementById('current-user-age').textContent = data.age;
-        document.getElementById('current-user-email').textContent = data.email;
-        document.getElementById('current-user-roles').textContent = data.roleNames;
-        document.getElementById('header-email').textContent = data.email;
-        document.getElementById('header-roles').textContent += data.roleNames;
-
-        buildUserPage(currentUser);
-    })
-    .catch(function(error) {
-            alert('Error when fetch current user: ' + error);
-        });
-
-    class User {
-        constructor(id, username, lastname, age, email, password, roles, admin, roleNames) {
-            this.id = id;
-            this.username = username;
-            this.lastname = lastname;
-            this.age = age;
-            this.email = email;
-            this.password = password;
-            this.roles = roles;
-            this.admin = admin;
-            this.roleNames = roleNames;
-        }
-    }
-
-    function buildUserPage(currentUser) {
-        if (currentUser.admin) {
-            document.getElementById('admin-btn').classList.add('active');
-            document.getElementById('admin-panel').className += ' show active';
-            buildAdminPanel();
-        } else {
-            document.getElementById('admin-btn').style.display = 'none';
-            document.getElementById('user-btn').classList.add('active');
-            document.getElementById('user-page').className += ' show active';
-        }
-    }
-
-    function buildAdminPanel() {
-        let tbody = document.getElementById('users-tbody');
-
-        fetch(URL)
-        .then((resp) => resp.json())
-        .then((data) => {
-            for (const user of data) {
-                // let id = document.createElement('td');
-                // let username = document.createElement('td');
-                // let lastname = document.createElement('td');
-                // let age = document.createElement('td');
-                // let email = document.createElement('td');
-                // let roleNames = document.createElement('td');
-                // id.textContent = user.id;
-                // username.textContent = user.username;
-                // lastname.textContent = user.lastname;
-                // age.textContent = user.age;
-                // email.textContent = user.email;
-                // roleNames.textContent = user.roleNames;
-                // tr.appendChild(id);
-                // tr.appendChild(username);
-                // tr.appendChild(lastname);
-                // tr.appendChild(age);
-                // tr.appendChild(email);
-                // tr.appendChild(roleNames);
-                let tr = document.createElement('tr');
-                tr.innerHTML =
-                    `<td>${user.id}</td>
-                     <td>${user.username}</td>
-                     <td>${user.lastname}</td>
-                     <td>${user.age}</td>
-                     <td>${user.email}</td>
-                     <td>${user.roleNames}</td>
-                     <td>
-                         <button class="btn btn-info text-white action-btn" name="edit">Edit</button>
-                     </td>
-                     <td>
-                         <button class="btn btn-danger action-btn" name="delete">Delete</button>
-                     </td>`;
-                tbody.appendChild(tr);
-            }
-        })
-        .catch(function(error) {
-            alert('Error when fetch all users: ' + error);
-        });
-    }
-
-    function buildModalWindow() {
-        let actionButtons = document.getElementsByClassName('action-btn');
-        let modalTitle = document.getElementById('modal-title');
-        let modalForm = document.getElementById('modal-form');
-        let modalRoles = document.getElementById('modal-role');
-        let modalInputs = document.getElementById('fields').children;
-        let submitBtn = document.getElementById('modal-btn');
-
-        const MODAL = new bootstrap.Modal(document.getElementById('modal'));
-        const ROLES = modalRoles.innerHTML;
-
-        buttonsActionInit(actionButtons);
-
-        function buttonsActionInit(buttons) {
-            for (const actionBtn of buttons) {
-                actionBtn.addEventListener('mousedown', getModal);
-            }
-        }
-
-        function getModal(event) {
-            MODAL.show();
-
-            let currentRow = event.currentTarget.parentNode.parentNode.children;
-            let readonly = false;
-            let passwordInput = modalInputs.namedItem('password');
-
-            if (event.currentTarget.name === 'edit') {
-                modalForm.action = '/admin/save';
-                modalTitle.textContent = 'Edit user';
-                submitBtn.className = 'btn btn-primary';
-                submitBtn.textContent = 'Edit';
-                passwordInput.style.display = '';
-                modalRoles.innerHTML = ROLES;
-            } else {
-                modalForm.action = '/admin/delete';
-                modalTitle.textContent = 'Delete user';
-                submitBtn.className = 'btn btn-danger';
-                submitBtn.textContent = 'Delete';
-                passwordInput.lastChild.required = false;
-                passwordInput.style.display = 'none';
-                readonly = true;
-                let roles = currentRow.item(6).firstElementChild.textContent.split(' ');
-                modalRoles.innerHTML = '';
-                for (const role of roles) {
-                    let option = document.createElement('option');
-                    option.textContent = role;
-                    modalRoles.appendChild(option);
-                }
-            }
-
-            for (let i = 0; i < 5; i++) {
-                let field = modalInputs.item(i).lastChild;
-                field.value = currentRow.item(i).textContent;
-                if (i > 0) field.readOnly = readonly;
-            }
-            modalRoles.disabled = readonly;
-        }
-    }
-
-</script>
 </html>

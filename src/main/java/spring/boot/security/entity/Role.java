@@ -1,5 +1,6 @@
 package spring.boot.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.Objects;
@@ -31,6 +32,7 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return "ROLE_" + name;
