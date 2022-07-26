@@ -1,6 +1,6 @@
 'use strict';
 
-// offline test entities
+// without server test entities
 let testUser = {
     id: '1',
     username: 'Admin-test',
@@ -79,10 +79,12 @@ function loadAllRoles() {
             .then(resp => resp.json())
             .then(roles => {
                 allRoles = roles
+                buildNewUserForm();
             })
             .catch(error => {
                 console.warn('Error when fetch roles: ' + error);
                 allRoles = testRoles;
+                buildNewUserForm();
             });
     }
 }
@@ -107,23 +109,21 @@ function buildAdminPanel(users) {
         addButtonPairs(tr, user);
         tbody.appendChild(tr);
     }
-    buildNewUserForm();
 }
 
 function buildNewUserForm() {
-    let addNewUserForm = userToForm('add-form');
-    addNewUserForm.addEventListener('submit', addFormListener);
+    let newUserForm = userToForm('add-form', {roles: []});
+    newUserForm.addEventListener('submit', addFormListener);
     function addFormListener(event) {
         event.preventDefault();
-        createRequest(addNewUserForm);
+        createRequest(newUserForm);
         document.getElementById('new-user-btn').classList.remove('active');
         document.getElementById('new-user').classList.remove('show');
         document.getElementById('new-user').classList.remove('active');
         document.getElementById('user-table-btn').classList.add('active');
         document.getElementById('user-table').classList.add('show');
         document.getElementById('user-table').classList.add('active');
-        addNewUserForm.reset();
-        // addNewUserForm.removeEventListener('submit', addFormListener);
+        newUserForm.reset();
     }
 }
 
@@ -146,7 +146,6 @@ function userToTable(tbody, user) {
 
 function userToForm(formId, user, isDelete) {
     let form = document.getElementById(formId);
-    user = user ?? {roles: allRoles};
     for (const field in user) {
         if (Array.isArray(user[field])) {
             let fields = isDelete ? user[field] : allRoles;
@@ -156,7 +155,7 @@ function userToForm(formId, user, isDelete) {
                 let option = document.createElement('option');
                 option.value = JSON.stringify(prop, ['id', 'name']);
                 option.textContent = prop.name;
-                option.selected = isDelete;
+                // option.selected = isDelete;
                 form[field].appendChild(option);
             }
         } else {
@@ -194,7 +193,8 @@ function getModal(title, user, isDelete) {
     let modalForm = userToForm('modal-form', user, isDelete);
     document.getElementById('modal-title').textContent = title;
     document.getElementById('password-label').style.display = isDelete ? 'none' : '';
-    modalForm.elements.password.value = '';
+    modalForm.elements.password.required = !isDelete;
+    modalForm.elements.roles.required = !isDelete;
     modalForm.elements.id.readOnly = true;
     modal.show();
     modalForm.addEventListener('submit', modalListener);
@@ -209,8 +209,7 @@ function getModal(title, user, isDelete) {
 }
 
 function createRequest(form, isDelete) {
-    console.info(JSON.stringify(form));
-    let user = {id: null ,username: null,lastname: null,age: null,email: null, password: '-',roles: [],};
+    let user = {id: null ,username: null,lastname: null,age: null,email: null, password: '.',roles: [],};
     for (const field in user) {
         if (Array.isArray(user[field])) {
             user[field] = Array.from(form.elements[field].selectedOptions).map(option => JSON.parse(option.value));
@@ -227,13 +226,13 @@ function startRequest(user, isDelete) {
         body: JSON.stringify(user),
         headers: {'Content-Type': 'application/json;charset=utf-8'}
     }
-    console.info(fetchData.body);
     console.info(fetchData.method);
+    console.info(fetchData.body);
 
     fetch(URL + '/admin/api', fetchData)
         .then(resp => resp.text())
-        .then(data => {
-            if (data === 'success') {
+        .then(result => {
+            if (result === 'success') {
                 loadAllUsers();
             }
         })
