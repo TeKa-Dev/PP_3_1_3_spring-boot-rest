@@ -14,7 +14,7 @@
 <body>
 
 <header class="row p-3 bg-dark">
-    <h5 class="col-11 text-white ps-3 m-0"><b id="header-email">user@mail.com </b> with roles: <span id="header-roles"> </span></h5>
+    <h5 class="col-11 text-white ps-3 m-0"><b id="header-email"> </b> <span id="header-roles"> </span></h5>
     <button class="col-1 btn text-light p-0" onclick="location.href='/logout'">Logout</button>
 </header>
 
@@ -126,7 +126,7 @@
         <article class="modal-content">
             <header class="modal-header">
                 <h5 class="modal-title" id="modal-title">modal</h5>
-                <button type="reset" class="btn-close" aria-label="Close"></button>
+                <button class="btn-close" type="reset" form="modal-form"></button>
             </header>
             <form class="modal-body" id="modal-form">
                 <fieldset class="text-center fw-bold">
@@ -144,13 +144,12 @@
                         <input class="form-control form-control-sm mb-2" type="password" name="password"></label>
                     <label class="col-form-label pb-0 col-7" >Role
                         <select class="form-select mb-2" size="2" name="roles" multiple>
-                            <option>ROLE</option>
                         </select></label>
                 </fieldset>
             </form>
             <footer class="modal-footer">
-                <button class="btn btn-secondary" type="reset">Close</button>
-                <button class="btn" type="submit" id="modal-btn" form="modal-form">Submit</button>
+                <button class="btn btn-secondary" type="reset" form="modal-form">Close</button>
+                <button class="btn" id="modal-btn" type="submit" form="modal-form">Submit</button>
             </footer>
         </article>
     </main>

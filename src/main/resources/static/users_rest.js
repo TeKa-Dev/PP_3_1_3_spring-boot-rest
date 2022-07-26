@@ -53,7 +53,7 @@ function loadCurrentUser() {
 function buildUserPage(user) {
     let currentUserTable = document.getElementById('current-user-tbody');
     let currentUserRoles = userToTable(currentUserTable, user).children.roles.textContent;
-    document.getElementById('header-roles').textContent = currentUserRoles;
+    document.getElementById('header-roles').textContent = ' with roles: ' + currentUserRoles;
     document.getElementById('header-email').textContent = user.email;
     showRelatedPage(currentUserRoles.includes('ADMIN'));
 }
@@ -111,11 +111,20 @@ function buildAdminPanel(users) {
 }
 
 function buildNewUserForm() {
-    let addForm = userToForm('add-form');
-    addForm.addEventListener('submit', event => {
+    let addNewUserForm = userToForm('add-form');
+    addNewUserForm.addEventListener('submit', addFormListener);
+    function addFormListener(event) {
         event.preventDefault();
-        createRequest(addForm);
-    });
+        createRequest(addNewUserForm);
+        document.getElementById('new-user-btn').classList.remove('active');
+        document.getElementById('new-user').classList.remove('show');
+        document.getElementById('new-user').classList.remove('active');
+        document.getElementById('user-table-btn').classList.add('active');
+        document.getElementById('user-table').classList.add('show');
+        document.getElementById('user-table').classList.add('active');
+        addNewUserForm.reset();
+        // addNewUserForm.removeEventListener('submit', addFormListener);
+    }
 }
 
 function userToTable(tbody, user) {
@@ -182,19 +191,20 @@ function createActionButton(user, name, classNames) {
 
 function getModal(title, user, isDelete) {
     let modal = new bootstrap.Modal(document.getElementById('modal'));
-    let form = userToForm('modal-form', user, isDelete);
+    let modalForm = userToForm('modal-form', user, isDelete);
     document.getElementById('modal-title').textContent = title;
     document.getElementById('password-label').style.display = isDelete ? 'none' : '';
-    form.elements.password.value = '';
-    form.elements.id.readOnly = true;
+    modalForm.elements.password.value = '';
+    modalForm.elements.id.readOnly = true;
     modal.show();
-    form.addEventListener('submit', modalFormHandler);
+    modalForm.addEventListener('submit', modalListener);
+    modalForm.addEventListener('reset', () => modal.hide());
 
-    function modalFormHandler(event) {
+    function modalListener(event) {
         event.preventDefault();
-        createRequest(form, isDelete);
+        createRequest(modalForm, isDelete);
         modal.hide();
-        form.removeEventListener('submit', modalFormHandler);
+        modalForm.removeEventListener('submit', modalListener);
     }
 }
 
