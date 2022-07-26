@@ -28,18 +28,13 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String getUserInformationPage(Model model, Principal principal) {
-        model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
-        model.addAttribute("roleList", userService.findAllRoles());
-        model.addAttribute(new User());
+    public String getUserInformationPage() {
         return "users_bootstrap";
     }
 
     @GetMapping("/admin")
-    public String getAdminPanel(Model model, Principal principal) {
-        model.addAttribute("userList", userService.findAllUsers());
-        model.addAttribute("adminPanel", true);
-        return getUserInformationPage(model, principal);
+    public String getAdminPanel() {
+        return getUserInformationPage();
     }
 
     @PostMapping("/admin/save")

@@ -70,17 +70,17 @@
                         <fieldset class="col-4 text-center fw-bold">
                                 <input hidden type="number" name="id" readonly></label>
                             <label class="col-12 px-3">First Name
-                                <input class="form-control form-control-sm mb-3" type="text" name="username"></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="username" required></label>
                             <label class="col-12 px-3">Last Name
-                                <input class="form-control form-control-sm mb-3" type="text" name="lastname"></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="lastname" required></label>
                             <label class="col-12 px-3">Age
-                                <input class="form-control form-control-sm mb-3" type="number" name="age"></label>
+                                <input class="form-control form-control-sm mb-3" type="number" name="age" required></label>
                             <label class="col-12 px-3">Email
-                                <input class="form-control form-control-sm mb-3" type="text" name="email"></label>
+                                <input class="form-control form-control-sm mb-3" type="text" name="email" required></label>
                             <label class="col-12 px-3"> Password
-                                <input class="form-control form-control-sm mb-3" type="password" name="password"></label>
+                                <input class="form-control form-control-sm mb-3" type="password" name="password" required></label>
                             <label class="col-12 px-3"> Role
-                                <select class="form-select mb-3" size="2" name="roles" multiple></select></label>
+                                <select class="form-select mb-3" size="2" name="roles" multiple required></select></label>
                             <button class="btn btn-success" type="submit" form="add-form" id="add-btn">Add new user</button>
                         </fieldset>
                     </form>
@@ -133,17 +133,17 @@
                     <label class="col-form-label pb-0 col-7">ID
                         <input class="form-control form-control-sm mb-2" type="number" name="id"></label>
                     <label class="col-form-label pb-0 col-7">First Name
-                        <input class="form-control form-control-sm mb-2" type="text" name="username"></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="username" required></label>
                     <label class="col-form-label pb-0 col-7">Last Name
-                        <input class="form-control form-control-sm mb-2" type="text" name="lastname"></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="lastname" required></label>
                     <label class="col-form-label pb-0 col-7">Age
-                        <input class="form-control form-control-sm mb-2" type="number" name="age"></label>
+                        <input class="form-control form-control-sm mb-2" type="number" name="age" required></label>
                     <label class="col-form-label pb-0 col-7">Email
-                        <input class="form-control form-control-sm mb-2" type="text" name="email"></label>
+                        <input class="form-control form-control-sm mb-2" type="text" name="email" required></label>
                     <label class="col-form-label pb-0 col-7" id="password-label"> Password
-                        <input class="form-control form-control-sm mb-2" type="password" name="password"></label>
+                        <input class="form-control form-control-sm mb-2" type="password" name="password" required></label>
                     <label class="col-form-label pb-0 col-7" >Role
-                        <select class="form-select mb-2" size="2" name="roles" multiple>
+                        <select class="form-select mb-2" size="2" name="roles" multiple required>
                         </select></label>
                 </fieldset>
             </form>
