@@ -1,37 +1,37 @@
 'use strict';
 
 // offline test entities
-// let testUser = {
-//     id: '1',
-//     username: 'Admin-test',
-//     lastname: 'Adminov-test',
-//     age: '32',
-//     email: 'admin-test@email',
-//     roles: [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'}],
-// };
-// let testUsers = [{
-//     id: '1',
-//     username: 'Admin-test',
-//     lastname: 'Adminov-test',
-//     age: '32',
-//     email: 'admin-test@email',
-//     roles: [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'},],
-// }, {
-//     id: '2',
-//     username: 'User-test',
-//     lastname: 'Userov-test',
-//     age: '22',
-//     email: 'user-test@email',
-//     roles: [{id: '2', name: 'USER-test'},],
-// }, {
-//     id: '3',
-//     username: 'Ghost-test',
-//     lastname: 'Ghostov-test',
-//     age: '12',
-//     email: 'ghost-test@email',
-//     roles: [{id: '3', name: 'GHOST-test'},],
-// },];
-// let testRoles = [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'},{id: '3', name: 'GHOST-test'},];
+let testUser = {
+    id: '1',
+    username: 'Admin-test',
+    lastname: 'Adminov-test',
+    age: '32',
+    email: 'admin-test@email',
+    roles: [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'}],
+};
+let testUsers = [{
+    id: '1',
+    username: 'Admin-test',
+    lastname: 'Adminov-test',
+    age: '32',
+    email: 'admin-test@email',
+    roles: [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'},],
+}, {
+    id: '2',
+    username: 'User-test',
+    lastname: 'Userov-test',
+    age: '22',
+    email: 'user-test@email',
+    roles: [{id: '2', name: 'USER-test'},],
+}, {
+    id: '3',
+    username: 'Ghost-test',
+    lastname: 'Ghostov-test',
+    age: '12',
+    email: 'ghost-test@email',
+    roles: [{id: '3', name: 'GHOST-test'},],
+},];
+let testRoles = [{id: '1', name: 'ADMIN-test'}, {id: '2', name: 'USER-test'},{id: '3', name: 'GHOST-test'},];
 
 
 const URL = 'http://localhost:8080';
@@ -46,7 +46,7 @@ function loadCurrentUser() {
         })
         .catch(error => {
             console.warn('Error when fetch current user: ' + error);
-            // buildUserPage(testUser);
+            buildUserPage(testUser);
         });
 }
 
@@ -82,7 +82,7 @@ function loadAllRoles() {
             })
             .catch(error => {
                 console.warn('Error when fetch roles: ' + error);
-                // allRoles = testRoles;
+                allRoles = testRoles;
             });
     }
 }
@@ -95,7 +95,7 @@ function loadAllUsers() {
         })
         .catch(error => {
             console.warn('Error when fetch all users: ' + error);
-            // buildAdminPanel(testUsers);
+            buildAdminPanel(testUsers);
         });
 }
 
@@ -209,6 +209,7 @@ function getModal(title, user, isDelete) {
 }
 
 function createRequest(form, isDelete) {
+    console.info(JSON.stringify(form));
     let user = {id: null ,username: null,lastname: null,age: null,email: null, password: '-',roles: [],};
     for (const field in user) {
         if (Array.isArray(user[field])) {
@@ -217,12 +218,10 @@ function createRequest(form, isDelete) {
             user[field] = form.elements[field].value;
         }
     }
-
-
-    startRequest(isDelete, user)
+    startRequest(user, isDelete)
 }
 
-function startRequest(isDelete, user) {
+function startRequest(user, isDelete) {
     let fetchData = {
         method: (isDelete ? 'DELETE' : 'POST'),
         body: JSON.stringify(user),
