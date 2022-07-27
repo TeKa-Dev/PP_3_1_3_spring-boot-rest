@@ -5,19 +5,17 @@ import org.springframework.web.bind.annotation.*;
 import spring.boot.security.entity.Role;
 import spring.boot.security.entity.User;
 import spring.boot.security.service.UserService;
-
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/api")
-public class UserRestController {
+public class AdminController {
 
     private final UserService userService;
 
     @Autowired
-    public UserRestController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -29,7 +27,8 @@ public class UserRestController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.findAllUsers().stream().peek(user -> user.setPassword(null)).collect(Collectors.toList());
+        return userService.findAllUsers().stream()
+                .peek(user -> user.setPassword(null)).collect(Collectors.toList());
     }
 
     @PostMapping

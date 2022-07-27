@@ -19,34 +19,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @ResponseBody
-    @GetMapping("/current-user")
-    public User getCurrentUser(Principal principal) {
-        User currentUser = userService.findByUsername(principal.getName());
-        currentUser.setPassword(null);
-        return currentUser;
-    }
 
     @GetMapping("/user")
     public String getUserInformationPage() {
         return "users_bootstrap";
     }
 
-    @GetMapping("/admin")
-    public String getAdminPanel() {
-        return getUserInformationPage();
-    }
-
-    @PostMapping("/admin/save")
-    public String saveUser(@RequestParam List<Long> roleIds, User user) {
-        user.setRoles(userService.findRoles(roleIds));
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/admin/delete")
-    public String deleteUser(User user) {
-        userService.deleteUser(user.getId());
-        return "redirect:/admin";
+    @ResponseBody
+    @GetMapping("/current-user")
+    public User getCurrentUser(Principal principal) {
+        User currentUser = userService.findByUsername(principal.getName());
+        currentUser.setPassword(null);
+        return currentUser;
     }
 }

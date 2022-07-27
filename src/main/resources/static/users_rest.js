@@ -204,6 +204,7 @@ function getModal(title, user, isDelete) {
         event.preventDefault();
         createRequest(modalForm, isDelete);
         modal.hide();
+        modalForm.reset();
         modalForm.removeEventListener('submit', modalListener);
     }
 }
