@@ -1,6 +1,7 @@
 package spring.boot.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.boot.security.entity.Role;
 import spring.boot.security.entity.User;
@@ -32,14 +33,14 @@ public class AdminController {
     }
 
     @PostMapping
-    public String saveUser(@RequestBody User user) {
+    public ResponseEntity<String> saveUser(@RequestBody User user) {
         userService.saveUser(user);
-        return "success";
+        return ResponseEntity.ok("success");
     }
 
     @DeleteMapping
-    public String deleteUser(@RequestBody User user) {
+    public ResponseEntity<String> deleteUser(@RequestBody User user) {
         userService.deleteUser(user);
-        return "success";
+        return ResponseEntity.ok("success");
     }
 }
