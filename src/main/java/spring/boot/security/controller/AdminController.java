@@ -29,7 +29,7 @@ public class AdminController {
     @GetMapping
     public List<User> getAllUsers() {
         return userService.findAllUsers().stream()
-                .peek(user -> user.setPassword(null)).collect(Collectors.toList());
+                .peek(User::eraseCredentials).collect(Collectors.toList());
     }
 
     @PostMapping
